@@ -43,14 +43,6 @@ header {
   color: #333;
 }
 
-.post img {
-  width: 100%;
-  max-height: 300px;
-  object-fit: cover;
-  margin-top: 10px;
-  border-radius: 5px;
-}
-
 /* Formulario de carga de archivos */
 .file-upload {
   margin-top: 10px;
@@ -106,20 +98,46 @@ header {
 }
 
 /* Contenedor principal */
+/* Contenedor principal */
 .container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 40px auto;
   background: white;
   padding: 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
   border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center; /* Centra los elementos */
 }
 
-/* Estilos de cada post */
+/* Estilo para cada post */
 .post {
-  margin-bottom: 30px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #ddd;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  width: calc(33.333% - 20px); /* Tres columnas en pantallas grandes */
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.post:hover {
+  transform: scale(1.05); /* Efecto de hover */
+}
+
+/* Estilo para pantallas pequeñas */
+@media (max-width: 1024px) {
+  .post {
+    width: calc(50% - 20px); /* Dos columnas en pantallas medianas */
+  }
+}
+
+/* Estilo para pantallas muy pequeñas */
+@media (max-width: 600px) {
+  .post {
+    width: 100%; /* Una sola columna en pantallas pequeñas */
+  }
 }
 
 .post h2 {
@@ -152,9 +170,179 @@ button {
   margin-top: 10px;
   border-radius: 4px;
   transition: background 0.3s;
+  
 }
 
 button:hover {
   background: #555;
 }
 
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  align-items: center;
+}
+
+/* Botón para subir PDF - Personalizado */
+.upload-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+  text-align: center;
+}
+
+.upload-btn:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.upload-btn:active {
+  transform: scale(0.95);
+}
+
+/* Botón de Ver más */
+.view-more-btn {
+  background-color: #000;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.view-more-btn:hover {
+  background-color: #333;
+}
+
+/* Texto del archivo subido */
+.pdf-info {
+  font-size: 12px;
+  color: #555;
+  margin-top: 5px;
+}
+
+/* Contenedor de botones */
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  align-items: center;
+}
+
+/* Botón para subir PDF */
+.upload-btn, .view-more-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+  text-align: center;
+  flex: 1; /* Ambos botones ocupan el mismo espacio */
+  text-decoration: none; /* Evita el subrayado en el botón de router-link */
+  text-align: center;
+}
+
+/* Efecto hover y click */
+.upload-btn:hover, .view-more-btn:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.upload-btn:active, .view-more-btn:active {
+  transform: scale(0.95);
+}
+
+/* Botón de Ver más (mismo tamaño que Subir PDF) */
+.view-more-btn {
+  background-color: #000;
+}
+
+.view-more-btn:hover {
+  background-color: #333;
+}
+
+/* Texto del archivo subido */
+.pdf-info {
+  font-size: 12px;
+  color: #555;
+  margin-top: 5px;
+}
+
+/* Contenedor principal */
+.post-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Barra de navegación tipo directorio */
+.breadcrumb {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 15px;
+}
+
+.back-btn {
+  display: inline-block;
+  padding: 10px 15px;
+  background: #f5f5f5;
+  color: #333;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.back-btn:hover {
+  background: #ddd;
+}
+
+/* Card layout */
+.post-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Imagen más grande */
+.post-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+/* Título */
+.post-title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Texto del post */
+.post-body {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.6;
+}
