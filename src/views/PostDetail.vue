@@ -1,11 +1,9 @@
 <template>
   <div class="post-container" v-if="post">
-    <!-- Barra de navegación tipo directorio -->
     <nav class="breadcrumb">
       <router-link to="/" class="back-btn">⬅ Volver</router-link>
     </nav>
 
-    <!-- Contenedor principal en forma de tarjeta -->
     <div class="post-card">
       <img class="post-image" src="https://picsum.photos/600/300" alt="Imagen de ejemplo" />
       <div class="post-content">

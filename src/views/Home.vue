@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header>Mi Blog </header>
+    <header>Mi Blog</header>
     <div class="container">
       <div v-for="post in postStore.posts" :key="post.id" class="post">
         <h2>{{ post.title }}</h2>
@@ -8,7 +8,6 @@
         <img :src="'https://picsum.photos/' + post.id" alt="Imagen de ejemplo" />
 
         <div class="buttons">
-          <!-- Botón de Subir PDF (Personalizado) -->
           <label :for="'pdf-upload-' + post.id" class="upload-btn">
             📄 Subir PDF
           </label>
@@ -20,15 +19,21 @@
             @change="handleFileUpload($event, post.id)"
           />
 
-          <!-- Botón de Ver más -->
           <router-link :to="'/post/' + post.id">
             <button class="view-more-btn">Ver más</button>
           </router-link>
+
+          <button
+            v-if="postStore.uploadedFiles[post.id]"
+            class="view-pdf-btn"
+            @click="abrirPdf(post.id)"
+          >
+            📂 Ver PDF
+          </button>
         </div>
 
-        <!-- Muestra el nombre del archivo si ya se subió -->
-        <p v-if="pdfFiles[post.id]" class="pdf-info">
-          Archivo subido: {{ pdfFiles[post.id]?.name }}
+        <p v-if="postStore.uploadedFiles[post.id]" class="pdf-info">
+          Archivo guardado y disponible.
         </p>
       </div>
     </div>
@@ -36,30 +41,46 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { usePostStore } from '../stores/posts';
+import { onMounted } from "vue";
+import Swal from "sweetalert2";
+import { usePostStore } from "../stores/posts";
 
 const postStore = usePostStore();
-const pdfFiles = ref<{ [key: number]: File | null }>({});
 
-onMounted(() => postStore.fetchPosts());
+onMounted(() => {
+  postStore.fetchPosts();
+  postStore.loadUploadedFiles(); 
+});
 
-// Función para manejar la subida del archivo
 const handleFileUpload = (event: Event, postId: number) => {
   const target = event.target as HTMLInputElement;
   if (target.files && target.files[0]) {
     const file = target.files[0];
 
-    // Verificar que el archivo no exceda los 4MB
     if (file.size > 4 * 1024 * 1024) {
-      alert("El archivo PDF no debe superar los 4MB.");
+      Swal.fire({
+        icon: "error",
+        title: "Error al subir el archivo",
+        text: "El archivo PDF no debe superar los 4MB.",
+        confirmButtonColor: "#d33",
+      });
       return;
     }
 
-    pdfFiles.value[postId] = file;
+    postStore.uploadFile(postId, file);
 
-    // Simulación de subida
-    alert(`PDF "${file.name}" subido correctamente para el post ${postId}.`);
+    Swal.fire({
+      icon: "success",
+      title: "PDF subido con éxito",
+      text: `El archivo "${file.name}" ha sido guardado correctamente.`,
+      confirmButtonColor: "#3085d6",
+    });
+  }
+};
+
+const abrirPdf = (postId: number) => {
+  if (postStore.uploadedFiles[postId]) {
+    window.open(postStore.uploadedFiles[postId], "_blank");
   }
 };
 </script>
